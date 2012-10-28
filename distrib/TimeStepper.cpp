@@ -4,39 +4,18 @@
 
 void ForwardEuler::takeStep(ParticleSystem* particleSystem, float stepSize)
 {
-	//get current state (X_0)
-	//evalF on current state f(X_0, t)
-	//multitply by h
-	//set current state to X_0 + hf(X_0, h)
-
 	vector<Vector3f> cur_state = particleSystem->getState();
 	vector<Vector3f> f_state = particleSystem->evalF(cur_state);
-	vector<Vector3f> new_state;	
-	Vector3f cur_particle;
-	Vector3f new_particle;
-	Vector3f f_particle;
+	vector<Vector3f> new_state (cur_state);;	
 	
 	for (unsigned i = 0; i < cur_state.size(); i++){	
-		cur_particle = cur_state[i];
-		f_particle = f_state[i];
-	
 		//X_1 = X_0 + h*f(X_0, t)	
-		new_particle = cur_particle + stepSize * f_particle;		
-//
-//		cout<<"cur_particle:";
-//		cur_particle.print();
-//		cout<<"f_particle:";
-//		f_particle.print();
-//		cout<<"new_particle:";
-//		new_particle.print();
-//
-		new_state.push_back(new_particle);
+		new_state[i] = cur_state[i] + stepSize * f_state[i];		
 	}
 	
 	particleSystem->setState(new_state);
 }
 
-///TODO: implement Trapzoidal rule here
 void Trapezoidal::takeStep(ParticleSystem* particleSystem, float stepSize)
 {
 	vector<Vector3f> X = particleSystem->getState();
@@ -48,19 +27,11 @@ void Trapezoidal::takeStep(ParticleSystem* particleSystem, float stepSize)
 	}
 
 	vector<Vector3f> f_1 = particleSystem->evalF(next_X);
-	vector<Vector3f> new_state;
-	Vector3f X_particle;
-	Vector3f f_0_particle;
-	Vector3f f_1_particle;	
+	vector<Vector3f> new_state (X);
 	Vector3f new_particle;
 	
 	for (unsigned i = 0; i < X.size(); i++){
-		X_particle = X[i];
-		f_0_particle = f_0[i];
-		f_1_particle = f_1[i];
-		new_particle = X_particle + stepSize / 2 * (f_0_particle + f_1_particle);
-		
-		new_state.push_back(new_particle);
+		new_state[i] = X[i] + stepSize / 2 * (f_0[i] + f_1[i]);
 	}
 
 	particleSystem->setState(new_state);
