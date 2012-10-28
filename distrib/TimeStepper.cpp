@@ -16,7 +16,7 @@ void ForwardEuler::takeStep(ParticleSystem* particleSystem, float stepSize)
 	Vector3f new_particle;
 	Vector3f f_particle;
 	
-	for (int i = 0; i < cur_state.size(); i++){	
+	for (unsigned i = 0; i < cur_state.size(); i++){	
 		cur_particle = cur_state[i];
 		f_particle = f_state[i];
 	
@@ -39,4 +39,29 @@ void ForwardEuler::takeStep(ParticleSystem* particleSystem, float stepSize)
 ///TODO: implement Trapzoidal rule here
 void Trapezoidal::takeStep(ParticleSystem* particleSystem, float stepSize)
 {
+	vector<Vector3f> X = particleSystem->getState();
+	vector<Vector3f> f_0 = particleSystem->evalF(X);
+	vector<Vector3f> next_X;
+	
+	for (unsigned i = 0; i < X.size(); i++){
+		next_X.push_back(X[i] + stepSize * f_0[i]);
+	}
+
+	vector<Vector3f> f_1 = particleSystem->evalF(next_X);
+	vector<Vector3f> new_state;
+	Vector3f X_particle;
+	Vector3f f_0_particle;
+	Vector3f f_1_particle;	
+	Vector3f new_particle;
+	
+	for (unsigned i = 0; i < X.size(); i++){
+		X_particle = X[i];
+		f_0_particle = f_0[i];
+		f_1_particle = f_1[i];
+		new_particle = X_particle + stepSize / 2 * (f_0_particle + f_1_particle);
+		
+		new_state.push_back(new_particle);
+	}
+
+	particleSystem->setState(new_state);
 }
