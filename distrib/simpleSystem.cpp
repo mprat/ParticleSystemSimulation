@@ -5,6 +5,9 @@ using namespace std;
 
 SimpleSystem::SimpleSystem()
 {
+	m_numParticles = 1;
+	m_vVecState.clear();
+	m_vVecState.push_back(Vector3f(1, 0, 0));		
 }
 
 // TODO: implement evalF
@@ -12,8 +15,12 @@ SimpleSystem::SimpleSystem()
 vector<Vector3f> SimpleSystem::evalF(vector<Vector3f> state)
 {
 	vector<Vector3f> f;
+	Vector3f next_deriv; 
 
-	// YOUR CODE HERE
+	for (unsigned i = 0; i < state.size(); i++){
+		next_deriv = Vector3f(-1.0*state[i].y(), state[i].x(), 0);
+		f.push_back(next_deriv);
+	}
 
 	return f;
 }
@@ -21,9 +28,12 @@ vector<Vector3f> SimpleSystem::evalF(vector<Vector3f> state)
 // render the system (ie draw the particles)
 void SimpleSystem::draw()
 {
-		Vector3f pos ;//YOUR PARTICLE POSITION
+	vector<Vector3f> cur_state = SimpleSystem::getState();
+	for (unsigned i = 0; i < cur_state.size(); i++){
+		Vector3f pos = cur_state[i];
 	  glPushMatrix();
 		glTranslatef(pos[0], pos[1], pos[2] );
 		glutSolidSphere(0.075f,10.0f,10.0f);
 		glPopMatrix();
+	}
 }
