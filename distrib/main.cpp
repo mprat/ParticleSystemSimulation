@@ -1,14 +1,15 @@
 #include <cmath>
 #include <cstdlib>
+#include <cstdio>
 #include <ctime>
 #include <iostream>
 #include <vector>
 
+#include <cstring>
+
 #include <GL/glut.h>
 #include <vecmath.h>
 #include "camera.h"
-
-///TODO: include more headers if necessary
 
 #include "TimeStepper.hpp"
 #include "simpleSystem.h"
@@ -21,15 +22,35 @@ namespace
 
     ParticleSystem *system;
     TimeStepper * timeStepper;
+	float h;
 
   // initialize your particle systems
-  ///TODO: read argv here. set timestepper , step size etc
   void initSystem(int argc, char * argv[])
   {
     // seed the random number generator with the current time
     srand( time( NULL ) );
-    system = new SimpleSystem();
-    timeStepper = new RK4();		
+
+	if (argc != 3){
+		cout<<"Must have two arguments"<<endl;
+		exit(0);
+	} else {
+		if (strcmp(argv[1], "e") == 0){	
+			timeStepper = new ForwardEuler();
+			cout<<"Initializing Forward Euler time stepper"<<endl;
+		} else if (strcmp(argv[1], "t") == 0){
+			timeStepper = new Trapezoidal();
+			cout<<"Initializing Trapezoidal time stepper"<<endl;
+		} else if (strcmp(argv[1], "r") == 0){	
+			timeStepper = new RK4();
+			cout<<"Initializing RK4 time stepper"<<endl;
+		} else {
+			timeStepper = new RK4();
+			cout<<"Not a valid time stepper - has been initialized to RK4"<<endl;
+		}
+		system= new SimpleSystem();
+	
+		h = atof(argv[2]);
+	}
   }
 
   // Take a step forward for the particle shower
@@ -38,8 +59,7 @@ namespace
   void stepSystem()
   {
       ///TODO The stepsize should change according to commandline arguments
-    const float h = 0.04f;
-    if(timeStepper!=0){
+	if(timeStepper!=0){
       timeStepper->takeStep(system,h);
     }
   }
