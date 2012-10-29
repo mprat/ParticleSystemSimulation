@@ -8,13 +8,13 @@
 class Spring
 {
 public:
-	Spring(float k, float r, int particle_i, int particle_j);
+	Spring(double k_s, double r_s, int particle_i, int particle_j);
 	Vector3f getForce(Vector3f pos_i, Vector3f pos_j);
 	int i;
 	int j;
 private:
-	float k;		
-	float r;
+	double k;		
+	double r;
 };
 
 #endif

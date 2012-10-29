@@ -2,12 +2,12 @@
 
 using namespace std;
 
-DragForce::DragForce(float k)
+DragForce::DragForce(double k)
 {
 	d_k = k;	
 }
 
 Vector3f DragForce::getForce(Vector3f velocity)
 {
-	return -1.0*d_k*velocity;
+	return -d_k*velocity;
 }

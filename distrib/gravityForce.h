@@ -8,10 +8,10 @@
 class GravityForce
 {
 public:
-	GravityForce(float mass);
+	GravityForce(double mass);
 	Vector3f getForce();
 private:
-	float g_mass;		
+	double g_mass;		
 	Vector3f g_force;
 };
 

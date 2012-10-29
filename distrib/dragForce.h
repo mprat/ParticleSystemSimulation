@@ -8,10 +8,10 @@
 class DragForce
 {
 public:
-	DragForce(float k);
+	DragForce(double k);
 	Vector3f getForce(Vector3f velocity);
 private:
-	float d_k;		
+	double d_k;		
 };
 
 #endif

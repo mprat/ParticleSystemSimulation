@@ -2,10 +2,10 @@
 
 using namespace std;
 
-GravityForce::GravityForce(float mass)
+GravityForce::GravityForce(double mass)
 {
 	g_mass = mass;	
-	g_force = Vector3f(0, 0, -1);
+	g_force = Vector3f(0, -1, 0);
 }
 
 Vector3f GravityForce::getForce()

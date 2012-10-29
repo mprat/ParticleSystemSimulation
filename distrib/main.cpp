@@ -27,7 +27,7 @@ namespace
 	vector<ParticleSystem*> system_toggle;
     int system_index = 0;
 	TimeStepper * timeStepper;
-	float h;
+	double h;
 
   // initialize your particle systems
   void initSystem(int argc, char * argv[])
