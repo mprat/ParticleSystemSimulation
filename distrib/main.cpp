@@ -13,6 +13,7 @@
 
 #include "TimeStepper.hpp"
 #include "simpleSystem.h"
+#include "pendulumSystem.h"
 
 using namespace std;
 
@@ -21,7 +22,11 @@ namespace
 {
 
     ParticleSystem *system;
-    TimeStepper * timeStepper;
+	ParticleSystem *simplesystem;
+	ParticleSystem *pendulumsystem;
+	vector<ParticleSystem*> system_toggle;
+    int system_index = 0;
+	TimeStepper * timeStepper;
 	float h;
 
   // initialize your particle systems
@@ -47,8 +52,12 @@ namespace
 			timeStepper = new RK4();
 			cout<<"Not a valid time stepper - has been initialized to RK4"<<endl;
 		}
-		system= new SimpleSystem();
-	
+		simplesystem= new SimpleSystem();
+		pendulumsystem = new PendulumSystem(2);
+		system_toggle.push_back(simplesystem);
+		system_toggle.push_back(pendulumsystem);
+		system = simplesystem; 	
+
 		h = atof(argv[2]);
 	}
   }
@@ -124,6 +133,24 @@ namespace
             camera.SetCenter( Vector3f::ZERO );
             break;
         }
+		case 't':
+		case 'T':
+		{
+			system_index = (system_index + 1) % (system_toggle.size());
+			system = system_toggle[system_index];	
+			
+			string s;
+			switch (system_index){
+				case 0:
+					s = "simple";
+					break;
+				case 1:
+					s = "pendulum";
+					break;
+			}
+			cout<<"Toggle: showing "<<s<<" system"<<endl; 
+			break;
+		}
         default:
             cout << "Unhandled key press " << key << "." << endl;        
         }

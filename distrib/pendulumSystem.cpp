@@ -9,7 +9,8 @@ PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 	for (int i = 0; i < m_numParticles; i++) {
 		
 		// for this system, we care about the position and the velocity
-
+		//TODO: initialize properly
+		// m_vVecState.push_back(Vector3f(1, 0, 0);
 	}
 }
 
