@@ -1,5 +1,8 @@
 
 #include "pendulumSystem.h"
+#include "gravityForce.h"
+#include "dragForce.h"
+#include "spring.h"
 
 PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 {
@@ -11,7 +14,7 @@ PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 		// for this system, we care about the position and the velocity
 	
 		//positions are at even indices, velocities are at odd indices
-		m_vVecState.push_back(Vector3f(0, i, 0));
+		m_vVecState.push_back(Vector3f(0, -i, 0));
 		m_vVecState.push_back(Vector3f(0, 0, 0));
 		mass.push_back(1.0);
 	}
@@ -22,11 +25,16 @@ vector<Vector3f> PendulumSystem::evalF(vector<Vector3f> state)
 {
 	vector<Vector3f> f;
 
-	for (unsigned i = 0; i < m_numParticles; i++){	
+	for (int i = 0; i < m_numParticles; i++){	
 		//velocity becomes the first element
 		f.push_back(velocityOf(i, state));
 		//next element is the sum of the forces 
-		
+		Vector3f forces = Vector3f(0, 0, 0);
+		if (i > 0){
+			GravityForce *g = new GravityForce(mass[i]);
+			forces += g->getForce();
+		}
+		f.push_back(forces);	
 	}
 
 	return f;
