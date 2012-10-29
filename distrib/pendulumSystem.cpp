@@ -9,19 +9,25 @@ PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 	for (int i = 0; i < m_numParticles; i++) {
 		
 		// for this system, we care about the position and the velocity
-		//TODO: initialize properly
-		// m_vVecState.push_back(Vector3f(1, 0, 0);
+	
+		//positions are at even indices, velocities are at odd indices
+		m_vVecState.push_back(Vector3f(0, i, 0));
+		m_vVecState.push_back(Vector3f(0, 0, 0));
+		mass.push_back(1.0);
 	}
 }
 
-
-// TODO: implement evalF
 // for a given state, evaluate f(X,t)
 vector<Vector3f> PendulumSystem::evalF(vector<Vector3f> state)
 {
 	vector<Vector3f> f;
 
-	// YOUR CODE HERE
+	for (unsigned i = 0; i < m_numParticles; i++){	
+		//velocity becomes the first element
+		f.push_back(velocityOf(i, state));
+		//next element is the sum of the forces 
+		
+	}
 
 	return f;
 }
@@ -30,10 +36,34 @@ vector<Vector3f> PendulumSystem::evalF(vector<Vector3f> state)
 void PendulumSystem::draw()
 {
 	for (int i = 0; i < m_numParticles; i++) {
-		Vector3f pos ;//  position of particle i. YOUR CODE HERE
+		Vector3f pos = positionOf(i); //current state's position
 		glPushMatrix();
 		glTranslatef(pos[0], pos[1], pos[2] );
 		glutSolidSphere(0.075f,10.0f,10.0f);
 		glPopMatrix();
 	}
+}
+
+//read position of particle i in the current state
+Vector3f PendulumSystem::positionOf(int i)
+{
+	return m_vVecState[2*i];
+}
+
+//read velocity of a particle i in the current state
+Vector3f PendulumSystem::velocityOf(int i)
+{
+	return m_vVecState[2*i + 1];
+}
+
+//read position of a particle i at a given state
+Vector3f PendulumSystem::positionOf(int i, vector<Vector3f> state)
+{
+	return state[2*i];
+}
+
+//read velocity of a particle i at a given state
+Vector3f PendulumSystem::velocityOf(int i, vector<Vector3f> state)
+{
+	return state[2*i + 1];
 }

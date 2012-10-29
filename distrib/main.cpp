@@ -56,7 +56,7 @@ namespace
 		pendulumsystem = new PendulumSystem(2);
 		system_toggle.push_back(simplesystem);
 		system_toggle.push_back(pendulumsystem);
-		system = simplesystem; 	
+		system = pendulumsystem; 	
 
 		h = atof(argv[2]);
 	}
