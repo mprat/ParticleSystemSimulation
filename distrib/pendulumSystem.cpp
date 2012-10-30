@@ -77,6 +77,22 @@ void PendulumSystem::draw()
 		glutSolidSphere(0.075f,10.0f,10.0f);
 		glPopMatrix();
 	}
+
+	drawSprings();
+}
+
+//draw springs
+void PendulumSystem::drawSprings()
+{
+	for (unsigned i = 0; i < springs.size(); i++)
+	{	
+		glPushMatrix();
+		glBegin(GL_LINES);
+		glVertex3fv(positionOf(springs[i].i));
+		glVertex3fv(positionOf(springs[i].j));
+		glEnd();
+		glPopMatrix();
+	}
 }
 
 //read position of particle i in the current state
