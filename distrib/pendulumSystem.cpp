@@ -55,7 +55,7 @@ vector<Vector3f> PendulumSystem::evalF(vector<Vector3f> state)
 		f[2*i + 1] = f[2*i + 1] / mass[i];
 	}
 	
-	statePrint(f);
+	//statePrint(f);
 	return f;
 }
 

@@ -24,6 +24,7 @@ namespace
     ParticleSystem *system;
 	ParticleSystem *simplesystem;
 	ParticleSystem *pendulumsystem;
+	ParticleSystem *particlechain;
 	vector<ParticleSystem*> system_toggle;
     int system_index = 0;
 	TimeStepper * timeStepper;
@@ -54,8 +55,10 @@ namespace
 		}
 		simplesystem= new SimpleSystem();
 		pendulumsystem = new PendulumSystem(2);
+		particlechain = new PendulumSystem(4);
 		system_toggle.push_back(simplesystem);
 		system_toggle.push_back(pendulumsystem);
+		system_toggle.push_back(particlechain);
 		system = simplesystem; 	
 
 		h = atof(argv[2]);
@@ -146,6 +149,9 @@ namespace
 					break;
 				case 1:
 					s = "pendulum";
+					break;
+				case 2:
+					s = "particle chain";
 					break;
 			}
 			cout<<"Toggle: showing "<<s<<" system"<<endl; 

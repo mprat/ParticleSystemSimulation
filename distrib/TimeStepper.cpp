@@ -34,10 +34,10 @@ void Trapezoidal::takeStep(ParticleSystem* particleSystem, float stepSize)
 		new_state[i] = X[i] + stepSize / 2 * (f_0[i] + f_1[i]);
 	}
 
-	cout<<"state print: "<<endl;
-	for (unsigned i = 0; i < new_state.size(); i++){
-		new_state[i].print();
-	}
+	//cout<<"state print: "<<endl;
+	//for (unsigned i = 0; i < new_state.size(); i++){
+	//	new_state[i].print();
+	//}
 
 	particleSystem->setState(new_state);
 }
