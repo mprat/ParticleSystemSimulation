@@ -1,7 +1,7 @@
 #include "ClothSystem.h"
 #include <iostream>
 
-ClothSystem::ClothSystem(int num_x, int num_y)
+ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 {
 	//TODO: must be at least 8x8
 	m_numParticles = num_x * num_y;
@@ -15,11 +15,14 @@ ClothSystem::ClothSystem(int num_x, int num_y)
 			m_vVecState.push_back(Vector3f(i, -j, 0)); //position
 			m_vVecState.push_back(Vector3f(0, 0, 0)); //velocity
 			mass.push_back(m);
+			if (j > 0){
+				cout<<"i = "<<i<<"  j =   "<<j<<endl;
+				Spring s(k, r, i*j, i*(j - 1));
+				springs.push_back(s);
+			}
 		}
 	}
 
-	//cout<<m_vVecState.size()<<endl;
-	//cout<<m_numParticles<<endl;
 	//TODO: fill in springs
 }
 
@@ -34,52 +37,52 @@ vector<Vector3f> ClothSystem::evalF(vector<Vector3f> state)
 }
 
 ///TODO: render the system (ie draw the particles)
-void ClothSystem::draw()
-{
-	for (int i = 0; i < m_numParticles; i++) {
-		Vector3f pos = positionOf(i); //current state's position
-		//pos.print();
-		glPushMatrix();
-		glTranslatef(pos[0], pos[1], pos[2] );
-		glutSolidSphere(0.075f,10.0f,10.0f);
-		glPopMatrix();
-	}
-
-}
-
+//void ClothSystem::draw()
+//{
+//	for (int i = 0; i < m_numParticles; i++) {
+//		Vector3f pos = positionOf(i); //current state's position
+//		//pos.print();
+//		glPushMatrix();
+//		glTranslatef(pos[0], pos[1], pos[2] );
+//		glutSolidSphere(0.075f,10.0f,10.0f);
+//		glPopMatrix();
+//	}
+//
+//}
+//
 //TODO: given an index i, j return linear index of springs
 int ClothSystem::indexOf(int i, int j)
 {
 	return 0;
 }
-
-void ClothSystem::statePrint(vector<Vector3f> s){
-	cout<<"state print: "<<endl;
-	for (unsigned i = 0; i < s.size(); i++){
-		s[i].print();
-	}
-}
-
-//read position of particle i in the current state
-Vector3f ClothSystem::positionOf(int i)
-{
-	return m_vVecState[2*i];
-}
-
-//read velocity of a particle i in the current state
-Vector3f ClothSystem::velocityOf(int i)
-{
-	return m_vVecState[2*i + 1];
-}
-
-//read position of a particle i at a given state
-Vector3f ClothSystem::positionOf(int i, vector<Vector3f> state)
-{
-	return state[2*i];
-}
-
-//read velocity of a particle i at a given state
-Vector3f ClothSystem::velocityOf(int i, vector<Vector3f> state)
-{
-	return state[2*i + 1];
-}
+//
+//void ClothSystem::statePrint(vector<Vector3f> s){
+//	cout<<"state print: "<<endl;
+//	for (unsigned i = 0; i < s.size(); i++){
+//		s[i].print();
+//	}
+//}
+//
+////read position of particle i in the current state
+//Vector3f ClothSystem::positionOf(int i)
+//{
+//	return m_vVecState[2*i];
+//}
+//
+////read velocity of a particle i in the current state
+//Vector3f ClothSystem::velocityOf(int i)
+//{
+//	return m_vVecState[2*i + 1];
+//}
+//
+////read position of a particle i at a given state
+//Vector3f ClothSystem::positionOf(int i, vector<Vector3f> state)
+//{
+//	return state[2*i];
+//}
+//
+////read velocity of a particle i at a given state
+//Vector3f ClothSystem::velocityOf(int i, vector<Vector3f> state)
+//{
+//	return state[2*i + 1];
+//}

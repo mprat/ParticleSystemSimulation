@@ -3,6 +3,8 @@
 #include "gravityForce.h"
 #include "dragForce.h"
 
+PendulumSystem::PendulumSystem():ParticleSystem(1){};
+
 PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 {
 	m_numParticles = numParticles;
@@ -24,6 +26,9 @@ PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 			springs.push_back(s);
 		}
 	}
+	fixedpoints.push_back(0);
+	
+	//cout<<"fplen = "<<fixedpoints.size()<<endl;
 }
 
 // for a given state, evaluate f(X,t)
@@ -47,12 +52,17 @@ vector<Vector3f> PendulumSystem::evalF(vector<Vector3f> state)
 
 	//add in spring forces by iterating through list of all springs
 	for (unsigned i = 0; i < springs.size(); i++){
+		f[2*(springs[i].i) + 1] += springs[i].getForce(positionOf(springs[i].i, state), positionOf(springs[i].j, state));
 		f[2*(springs[i].j) + 1] += springs[i].getForce(positionOf(springs[i].j, state), positionOf(springs[i].i, state));
 	}
 	//f[3].print();
 	
 	for (int i = 0; i < m_numParticles; i++){
 		f[2*i + 1] = f[2*i + 1] / mass[i];
+	}
+
+	for (unsigned i = 0; i < fixedpoints.size(); i++){
+		f[2*fixedpoints[i] + 1] = Vector3f(0, 0, 0);
 	}
 	
 	//statePrint(f);

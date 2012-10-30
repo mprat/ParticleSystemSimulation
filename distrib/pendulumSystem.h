@@ -11,16 +11,17 @@
 class PendulumSystem: public ParticleSystem
 {
 public:
+	PendulumSystem();
 	PendulumSystem(int numParticles);
-	
+		
 	vector<Vector3f> evalF(vector<Vector3f> state);
 	
 	void draw();
 	void drawSprings();
 
 	vector<double> mass;
-	
-	vector<Spring> springs;	
+	vector<Spring> springs;
+	vector<int> fixedpoints;	
 private:
 	Vector3f positionOf(int i);
 	Vector3f velocityOf(int i);
