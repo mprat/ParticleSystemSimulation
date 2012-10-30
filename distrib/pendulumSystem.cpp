@@ -15,7 +15,7 @@ PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 		// for this system, we care about the position and the velocity
 	
 		//positions are at even indices, velocities are at odd indices
-		m_vVecState.push_back(Vector3f(0, -i, 0));
+		m_vVecState.push_back(Vector3f(-i, 0, 0));
 		m_vVecState.push_back(Vector3f(0, 0, 0));
 		mass.push_back(2.0);
 		if (i > 0)

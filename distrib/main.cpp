@@ -14,6 +14,7 @@
 #include "TimeStepper.hpp"
 #include "simpleSystem.h"
 #include "pendulumSystem.h"
+#include "ClothSystem.h"
 
 using namespace std;
 
@@ -25,6 +26,7 @@ namespace
 	ParticleSystem *simplesystem;
 	ParticleSystem *pendulumsystem;
 	ParticleSystem *particlechain;
+	ParticleSystem *clothsystem;
 	vector<ParticleSystem*> system_toggle;
     int system_index = 0;
 	TimeStepper * timeStepper;
@@ -56,9 +58,11 @@ namespace
 		simplesystem= new SimpleSystem();
 		pendulumsystem = new PendulumSystem(2);
 		particlechain = new PendulumSystem(4);
+		clothsystem = new ClothSystem(2, 2);
 		system_toggle.push_back(simplesystem);
 		system_toggle.push_back(pendulumsystem);
 		system_toggle.push_back(particlechain);
+		system_toggle.push_back(clothsystem);
 		system = simplesystem; 	
 
 		h = atof(argv[2]);
@@ -152,6 +156,9 @@ namespace
 					break;
 				case 2:
 					s = "particle chain";
+					break;
+				case 3:
+					s = "cloth system";
 					break;
 			}
 			cout<<"Toggle: showing "<<s<<" system"<<endl; 
