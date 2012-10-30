@@ -61,12 +61,20 @@ vector<Vector3f> PendulumSystem::evalF(vector<Vector3f> state)
 		f[2*i + 1] = f[2*i + 1] / mass[i];
 	}
 
+	//TODO: make this a submethod
 	for (unsigned i = 0; i < fixedpoints.size(); i++){
 		f[2*fixedpoints[i] + 1] = Vector3f(0, 0, 0);
 	}
-	
+	//setFixedPointForces(f);
 	//statePrint(f);
 	return f;
+}
+
+//make all the forces for all fixed points zero
+void PendulumSystem::setFixedPointForces(vector<Vector3f> forces){
+	for (unsigned i = 0; i < fixedpoints.size(); i++){
+		forces[2*fixedpoints[i] + 1] = Vector3f(0, 0, 0);
+	}
 }
 
 void PendulumSystem::statePrint(vector<Vector3f> s){

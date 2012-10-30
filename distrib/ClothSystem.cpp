@@ -14,7 +14,7 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 
 	for (int i = 0; i < num_rows; i++){
 		for (int j = 0; j < num_cols; j++){
-			m_vVecState.push_back(Vector3f(j, -i, 0)); //position
+			m_vVecState.push_back(Vector3f(j, 0, i)); //position
 			m_vVecState.push_back(Vector3f(0, 0, 0)); //velocity
 			mass.push_back(m);
 			if (j > 0){
@@ -25,8 +25,6 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 			}
 		}
 	}
-
-	//TODO: fill in springs
 }
 
 // TODO: implement evalF

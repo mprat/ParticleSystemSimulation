@@ -28,6 +28,7 @@ private:
 	Vector3f positionOf(int i, vector<Vector3f> state);
 	Vector3f velocityOf(int i, vector<Vector3f> state);
 	void statePrint(vector<Vector3f> s);
+	void setFixedPointForces(vector<Vector3f> forces);
 	
 	double k;
 	double rest_length;	
