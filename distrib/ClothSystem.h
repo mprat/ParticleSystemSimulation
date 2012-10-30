@@ -17,6 +17,8 @@ public:
 	
 private:
 	int indexOf(int i, int j);
+	int num_cols;
+	int num_rows;
 };
 
 

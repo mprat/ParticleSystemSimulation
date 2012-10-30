@@ -58,7 +58,7 @@ namespace
 		simplesystem= new SimpleSystem();
 		pendulumsystem = new PendulumSystem(2);
 		particlechain = new PendulumSystem(4);
-		clothsystem = new ClothSystem(2, 2);
+		clothsystem = new ClothSystem(2, 4);
 		system_toggle.push_back(simplesystem);
 		system_toggle.push_back(pendulumsystem);
 		system_toggle.push_back(particlechain);
