@@ -9,9 +9,9 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 	m_numParticles = num_rows * num_cols;
 
 	double k = 4.0;
-	double r = 1.0;
+	double r = 1.5;
 	double m = 3.0;
-
+	
 	for (int i = 0; i < num_rows; i++){
 		for (int j = 0; j < num_cols; j++){
 			//cout<<"("<<j<<", 0, "<<i<<")"<<endl;
