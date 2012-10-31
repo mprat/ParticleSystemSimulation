@@ -19,7 +19,7 @@ public:
 	vector<Vector3f> evalF(vector<Vector3f> state);
 	
 	void draw();
-	void drawSprings();
+	//void drawSprings();
 
 	vector<double> mass;
 	vector<Spring> springs;
@@ -27,7 +27,7 @@ public:
 private:
 	void statePrint(vector<Vector3f> s);
 	void setFixedPointForces(vector<Vector3f> forces);
-	
+	void drawSprings();	
 	double k;
 	double rest_length;	
 protected:

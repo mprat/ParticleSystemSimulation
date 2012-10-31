@@ -5,18 +5,19 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 {
 	num_cols = num_x;
 	num_rows = num_y;
-	//TODO: must be at least 8x8
 	m_numParticles = num_rows * num_cols;
 
-	double k = 4.0;
-	double r = 1.5;
+	double length = 4.0;
+	double scalefactor = length / num_x;
+	double k = 20.0;
+	double r = scalefactor*1.3;
 	double m = 3.0;
 	
 	for (int i = 0; i < num_rows; i++){
 		for (int j = 0; j < num_cols; j++){
 			//cout<<"("<<j<<", 0, "<<i<<")"<<endl;
-			m_vVecState.push_back(Vector3f(j, 0, i)); //position
-			m_vVecState.push_back(Vector3f(0, 0, 0)); //velocity
+			m_vVecState.push_back(scalefactor * Vector3f(j, 0, i)); //position
+			m_vVecState.push_back(scalefactor * Vector3f(0, 0, 0)); //velocity
 			mass.push_back(m);
 		}
 	}
@@ -38,6 +39,7 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 		}
 	}
 
+	k *= .7;
 	//add shear springs
 	for (int i = 1; i < num_rows; i++){
 		for (int j = 1; j < num_cols; j++){
@@ -72,6 +74,30 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 	cout<<"numparticles = "<<m_numParticles<<endl;
 	cout<<"numsprings = "<<springs.size()<<endl;
 }
+
+//draw the system
+void ClothSystem::draw(){
+
+	drawSprings();
+
+}
+
+//draw springs
+void ClothSystem::drawSprings(){
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	for (unsigned i = 0; i < (num_rows*(num_cols - 1) + num_cols*(num_rows - 1)); i++)
+	{	
+		glPushMatrix();
+		glLineWidth(3);
+		glBegin(GL_LINES);
+		glVertex3fv(positionOf(springs[i].i));
+		glVertex3fv(positionOf(springs[i].j));
+		glEnd();
+		glPopMatrix();
+	}
+	glPopAttrib();
+}
+
 //
 //// for a given state, evaluate f(X,t)
 //vector<Vector3f> ClothSystem::evalF(vector<Vector3f> state)

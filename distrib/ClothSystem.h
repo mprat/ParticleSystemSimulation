@@ -14,11 +14,12 @@ class ClothSystem: public PendulumSystem
 public:
 	ClothSystem(int num_x, int num_y);
 	//vector<Vector3f> evalF(vector<Vector3f> state);
-	
+	void draw();
 private:
 	int indexOf(int i, int j);
 	int num_cols;
 	int num_rows;
+	void drawSprings();
 };
 
 
