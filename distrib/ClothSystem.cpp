@@ -110,7 +110,14 @@ vector<Vector3f> ClothSystem::evalF(vector<Vector3f> state)
 	{
 		f[2*externalForces[i].particle_index + 1] += externalForces[i].e_force;
 	} 	
-		
+	
+	//if no external forces, velocity of fp particles are zero
+	if (externalForces.empty()){
+		for (unsigned i = 0; i < fixedpoints.size(); i++){
+			f[2*fixedpoints[i]] = Vector3f(0, 0, 0);
+		}
+	}	
+	
 	for (int i = 0; i < m_numParticles; i++){
 		f[2*i + 1] = f[2*i + 1] / mass[i];
 	}
@@ -161,21 +168,7 @@ int ClothSystem::indexOf(int row, int col)
 
 void ClothSystem::addExternalForce(ExternalForce e)
 {
-	//add external force
 	externalForces.push_back(e);
-//	
-//	//get rid of the fixedpoint from the fixedpoint list
-//	vector<int> fp(fixedpoints);
-//	fixedpoints.clear();
-//	int pt;
-//	while(!fp.empty())
-//	{
-//		pt = fp.back();
-//		fp.pop_back();
-//		if (pt != e.particle_index){
-//			fixedpoints.push_back(pt);
-//		}	
-//	}
 }
 
 void ClothSystem::clearExternalForces()
