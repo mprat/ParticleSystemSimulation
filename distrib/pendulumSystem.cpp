@@ -43,10 +43,8 @@ vector<Vector3f> PendulumSystem::evalF(vector<Vector3f> state)
 		f[2*i] = velocityOf(i, state);
 		f[2*i + 1] = Vector3f(0, 0, 0);
 		//next element is the sum of the forces 
-		if (i > 0){
-			f[2*i + 1] += g.getForce(mass[i]);
-			f[2*i + 1] += d.getForce(velocityOf(i, state));
-		}
+		f[2*i + 1] += g.getForce(mass[i]);
+		f[2*i + 1] += d.getForce(velocityOf(i, state));
 	}
 
 	//add in spring forces by iterating through list of all springs

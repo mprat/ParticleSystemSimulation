@@ -38,20 +38,54 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 			springs.push_back(s);
 		}
 	}
+
+	//TODO: add shear springs
+
+	//TODO: add flex springs
+	
+	//add fixed points
+	for (int i = 0; i < num_cols; i++)
+	{
+		fixedpoints.push_back(indexOf(0, i));
+	}
+
+	d.setK(0.8);	
 	
 	cout<<"numparticles = "<<m_numParticles<<endl;
 	cout<<"numsprings = "<<springs.size()<<endl;
 }
-
-// TODO: implement evalF
-// for a given state, evaluate f(X,t)
-vector<Vector3f> ClothSystem::evalF(vector<Vector3f> state)
-{
-	vector<Vector3f> f;
-	
-	for (unsigned i = 0; i < state.size(); i++) {f.push_back(Vector3f(0, 0, 0));}
-	return f;
-}
+//
+//// for a given state, evaluate f(X,t)
+//vector<Vector3f> ClothSystem::evalF(vector<Vector3f> state)
+//{
+//	vector<Vector3f> f(state);
+//
+//	//add gravity and drag and velocity
+//	for (int i = 0; i < m_numParticles; i++)
+//	{
+//		f[2*i] = velocityOf(i, state);
+//		f[2*i + 1] = Vector3f(0, 0, 0);
+//		f[2*i + 1] += g.getForce(mass[i]);
+//		f[2*i + 1] += d.getForce(velocityOf(i, state));
+//	}
+//	for (unsigned i = 0; i < springs.size();  i++)
+//	{
+//		f[2*(springs[i].i) + 1] += springs[i].getForce(positionOf(springs[i].i, state), positionOf(springs[i].j, state));
+//		f[2*(springs[i].j) + 1] += springs[i].getForce(positionOf(springs[i].j, state), positionOf(springs[i].i, state));
+//	}
+//
+//	//normalize by mass
+//	for (int i = 0; i < m_numParticles; i++){
+//		f[2*i + 1] = f[2*i + 1] / mass[i];
+//	}
+//	
+//	//set fixed points
+//	for (unsigned i = 0; i < fixedpoints.size(); i++){
+//		f[2*fixedpoints[i] + 1] = Vector3f(0, 0, 0);
+//	}
+//	
+//	return f;
+//}
 
 //cloth is initialized like
 //0 --- 1 --- 2 --- 3
