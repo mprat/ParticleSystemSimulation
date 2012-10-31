@@ -40,14 +40,13 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 	}
 
 	//TODO: add shear springs
+	
 
 	//TODO: add flex springs
 	
 	//add fixed points
-	for (int i = 0; i < num_cols; i++)
-	{
-		fixedpoints.push_back(indexOf(0, i));
-	}
+	fixedpoints.push_back(indexOf(0, 0));
+	fixedpoints.push_back(indexOf(0, num_cols - 1));
 
 	d.setK(0.8);	
 	
