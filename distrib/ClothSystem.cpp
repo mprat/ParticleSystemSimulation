@@ -9,9 +9,9 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 
 	double length = 4.0;
 	double scalefactor = length / num_x;
-	double k = 20.0;
-	double r = scalefactor*1.3;
-	double m = 3.0;
+	double k = 150.0;
+	double r = scalefactor*1.0;
+	double m = 1.5;
 	
 	for (int i = 0; i < num_rows; i++){
 		for (int j = 0; j < num_cols; j++){
@@ -39,7 +39,8 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 		}
 	}
 
-	k *= .7;
+	k = .7;
+	r *= 1.414;
 	//add shear springs
 	for (int i = 1; i < num_rows; i++){
 		for (int j = 1; j < num_cols; j++){
@@ -50,6 +51,8 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 		}
 	}	
 
+	k *= .4;
+	r = r / 1.414 * 2.0;
 	//add horizontal flex springs
 	for (int i = 0; i < num_rows; i++){
 		for (int j = 0; j < num_cols - 2; j++){
