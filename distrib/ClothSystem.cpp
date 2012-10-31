@@ -8,9 +8,9 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 	//TODO: must be at least 8x8
 	m_numParticles = num_rows * num_cols;
 
-	double k = 5.0;
+	double k = 4.0;
 	double r = 1.0;
-	double m = 2.0;
+	double m = 3.0;
 
 	for (int i = 0; i < num_rows; i++){
 		for (int j = 0; j < num_cols; j++){
@@ -30,7 +30,6 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 			//springs.push_back(s2);
 		}
 	}
-	
 	//add vertical springs
 	for (int i = 1; i < num_rows; i++){
 		for (int j = 0; j < num_cols; j++){
@@ -48,14 +47,21 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 			springs.push_back(s2);
 		}
 	}	
-	//for (int i = 0; i < num_rows - 1; i++){
-	//	for (int j = 1; j < num_cols; j++){
-	//		Spring s(k, r, indexOf(i + 1, j), indexOf(i, j));
-	//		springs.push_back(s);
-	//	}
-	//}
 
-	//TODO: add flex springs
+	//add horizontal flex springs
+	for (int i = 0; i < num_rows; i++){
+		for (int j = 0; j < num_cols - 2; j++){
+			Spring s(k, r, indexOf(i, j), indexOf(i, j + 2));
+			springs.push_back(s);
+		}
+	} 
+	//add vertical flex springs
+	for (int i = 0; i < num_rows - 2; i++){
+		for (int j = 0; j < num_cols; j++){
+			Spring s(k, r, indexOf(i, j), indexOf(i + 2, j));
+			springs.push_back(s);
+		}
+	}
 	
 	//add fixed points
 	fixedpoints.push_back(indexOf(0, 0));
