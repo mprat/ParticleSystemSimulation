@@ -7,6 +7,8 @@
 
 #include "particleSystem.h"
 #include "spring.h"
+#include "gravityForce.h"
+#include "dragForce.h"
 
 class PendulumSystem: public ParticleSystem
 {
@@ -32,6 +34,8 @@ private:
 	
 	double k;
 	double rest_length;	
+	GravityForce g;
+	DragForce d;
 };
 
 #endif

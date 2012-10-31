@@ -8,7 +8,8 @@
 class DragForce
 {
 public:
-	DragForce(double k);
+	DragForce(double k=1.0);
+	void setK(double k);
 	Vector3f getForce(Vector3f velocity);
 private:
 	double d_k;		

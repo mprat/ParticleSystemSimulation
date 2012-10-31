@@ -2,13 +2,12 @@
 
 using namespace std;
 
-GravityForce::GravityForce(double mass)
+GravityForce::GravityForce()
 {
-	g_mass = mass;	
 	g_force = Vector3f(0, -1, 0);
 }
 
-Vector3f GravityForce::getForce()
+Vector3f GravityForce::getForce(double mass)
 {
-	return g_mass*g_force;
+	return mass*g_force;
 }

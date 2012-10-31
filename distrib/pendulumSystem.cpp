@@ -9,7 +9,7 @@ PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 {
 	m_numParticles = numParticles;
 	double k = 5.0;
-	double r = 1.0;
+	double r = 0.5;
 
 	// fill in code for initializing the state based on the number of particles
 	for (int i = 0; i < m_numParticles; i++) {
@@ -28,6 +28,7 @@ PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 	}
 	fixedpoints.push_back(0);
 	
+	d.setK(0.8);
 	//cout<<"fplen = "<<fixedpoints.size()<<endl;
 }
 
@@ -43,9 +44,7 @@ vector<Vector3f> PendulumSystem::evalF(vector<Vector3f> state)
 		f[2*i + 1] = Vector3f(0, 0, 0);
 		//next element is the sum of the forces 
 		if (i > 0){
-			GravityForce g(mass[i]);
-			f[2*i + 1] += g.getForce();
-			DragForce d(2.0);
+			f[2*i + 1] += g.getForce(mass[i]);
 			f[2*i + 1] += d.getForce(velocityOf(i, state));
 		}
 	}
