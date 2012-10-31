@@ -6,7 +6,7 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 	num_cols = num_x;
 	num_rows = num_y;
 	//TODO: must be at least 8x8
-	m_numParticles = num_cols * num_cols;
+	m_numParticles = num_rows * num_cols;
 
 	double k = 5.0;
 	double r = 1.0;
@@ -14,17 +14,33 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 
 	for (int i = 0; i < num_rows; i++){
 		for (int j = 0; j < num_cols; j++){
+			//cout<<"("<<j<<", 0, "<<i<<")"<<endl;
 			m_vVecState.push_back(Vector3f(j, 0, i)); //position
 			m_vVecState.push_back(Vector3f(0, 0, 0)); //velocity
 			mass.push_back(m);
-			if (j > 0){
-				Spring s1(k, r, indexOf(i, j), indexOf(i, j - 1));
-				springs.push_back(s1);
-				Spring s2(k, r, indexOf(j, i), indexOf(j - 1, i));
-				springs.push_back(s2);
-			}
 		}
 	}
+	
+	//add horizontal springs
+	for (int i = 0; i < num_rows; i++){
+		for (int j = 1; j < num_cols; j++){
+			Spring s(k, r, indexOf(i, j), indexOf(i, j - 1));
+			springs.push_back(s);
+			//Spring s2(k, r, indexOf(j, i), indexOf(j - 1, i));
+			//springs.push_back(s2);
+		}
+	}
+	
+	//add vertical springs
+	for (int i = 1; i < num_rows; i++){
+		for (int j = 0; j < num_cols; j++){
+			Spring s(k, r, indexOf(i, j), indexOf(i - 1, j));
+			springs.push_back(s);
+		}
+	}
+	
+	cout<<"numparticles = "<<m_numParticles<<endl;
+	cout<<"numsprings = "<<springs.size()<<endl;
 }
 
 // TODO: implement evalF
