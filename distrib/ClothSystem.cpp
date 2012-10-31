@@ -39,8 +39,21 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 		}
 	}
 
-	//TODO: add shear springs
-	
+	//add shear springs
+	for (int i = 1; i < num_rows; i++){
+		for (int j = 1; j < num_cols; j++){
+			Spring s1(k, r, indexOf(i - 1, j - 1), indexOf(i, j));
+			Spring s2(k, r, indexOf(i - 1, j), indexOf(i, j - 1));
+			springs.push_back(s1);
+			springs.push_back(s2);
+		}
+	}	
+	//for (int i = 0; i < num_rows - 1; i++){
+	//	for (int j = 1; j < num_cols; j++){
+	//		Spring s(k, r, indexOf(i + 1, j), indexOf(i, j));
+	//		springs.push_back(s);
+	//	}
+	//}
 
 	//TODO: add flex springs
 	
