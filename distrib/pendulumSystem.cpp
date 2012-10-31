@@ -59,8 +59,10 @@ vector<Vector3f> PendulumSystem::evalF(vector<Vector3f> state)
 	}
 
 	//set fixedpoints by setting forces = 0
+	//still add drag to the fixed points
 	for (unsigned i = 0; i < fixedpoints.size(); i++){
 		f[2*fixedpoints[i] + 1] = Vector3f(0, 0, 0);
+		f[2*fixedpoints[i] + 1] += d.getForce(velocityOf(i, state));
 	}
 	return f;
 }

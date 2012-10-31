@@ -31,6 +31,7 @@ namespace
     int system_index = 0;
 	TimeStepper * timeStepper;
 	double h;
+	bool swingon = false;
 
   // initialize your particle systems
   void initSystem(int argc, char * argv[])
@@ -70,13 +71,10 @@ namespace
   }
 
   // Take a step forward for the particle shower
-  ///TODO: Optional. modify this function to display various particle systems
-  ///and switch between different timeSteppers
   void stepSystem()
   {
-      ///TODO The stepsize should change according to commandline arguments
 	if(timeStepper!=0){
-      timeStepper->takeStep(system,h);
+		timeStepper->takeStep(system,h);
     }
   }
 
@@ -162,6 +160,25 @@ namespace
 					break;
 			}
 			cout<<"Toggle: showing "<<s<<" system"<<endl; 
+			break;
+		}
+		case 's':
+		case 'S':
+		{
+			//TODO: make it only swing for the cloth
+			swingon = !swingon;
+			string swingstatus;
+			if (swingon){
+				swingstatus = "on";
+				ClothSystem* clothsystemcast = static_cast<ClothSystem*>(clothsystem);
+				for (unsigned i = 0; i < (clothsystemcast->fixedpoints).size(); i++){
+					clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, 1)));
+				}
+			} else {
+				swingstatus = "off";
+				static_cast<ClothSystem*>(clothsystem)->clearExternalForces();
+			}
+			cout<<"Swing "<<swingstatus<<endl;
 			break;
 		}
         default:

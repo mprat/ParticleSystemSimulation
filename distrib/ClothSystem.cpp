@@ -101,6 +101,23 @@ void ClothSystem::drawSprings(){
 	glPopAttrib();
 }
 
+vector<Vector3f> ClothSystem::evalF(vector<Vector3f> state)
+{
+	vector<Vector3f> f = PendulumSystem::evalF(state);
+	
+	//deal with external forces
+	for (unsigned i = 0; i < externalForces.size(); i++)
+	{
+		f[2*externalForces[i].particle_index + 1] += externalForces[i].e_force;
+	} 	
+		
+	for (int i = 0; i < m_numParticles; i++){
+		f[2*i + 1] = f[2*i + 1] / mass[i];
+	}
+
+	return f;
+}
+
 //
 //// for a given state, evaluate f(X,t)
 //vector<Vector3f> ClothSystem::evalF(vector<Vector3f> state)
@@ -140,4 +157,28 @@ void ClothSystem::drawSprings(){
 int ClothSystem::indexOf(int row, int col)
 {
 	return row*num_cols + col;
+}
+
+void ClothSystem::addExternalForce(ExternalForce e)
+{
+	//add external force
+	externalForces.push_back(e);
+//	
+//	//get rid of the fixedpoint from the fixedpoint list
+//	vector<int> fp(fixedpoints);
+//	fixedpoints.clear();
+//	int pt;
+//	while(!fp.empty())
+//	{
+//		pt = fp.back();
+//		fp.pop_back();
+//		if (pt != e.particle_index){
+//			fixedpoints.push_back(pt);
+//		}	
+//	}
+}
+
+void ClothSystem::clearExternalForces()
+{
+	externalForces.clear();
 }
