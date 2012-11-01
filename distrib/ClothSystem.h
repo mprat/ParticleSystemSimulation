@@ -25,6 +25,7 @@ private:
 	int num_rows;
 	void drawSprings();
 	vector<ExternalForce> externalForces;
+	Vector3f getNormal(int x, int y);
 };
 
 

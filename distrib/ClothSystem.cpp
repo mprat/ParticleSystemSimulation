@@ -86,6 +86,45 @@ void ClothSystem::reset(int num_x, int num_y)
 
 }
 
+//get the normal based on the point around you
+Vector3f ClothSystem::getNormal(int x, int y){
+	Vector3f normal = Vector3f(0, 0, 0);
+	Vector3f v1 = positionOf(indexOf(x, y));
+	Vector3f v2 = Vector3f(0, 0, 0);
+	Vector3f v3 = Vector3f(0, 0, 0);
+	Vector3f v4 = Vector3f(0, 0, 0);
+	Vector3f v5 = Vector3f(0, 0, 0);
+	vector<Vector3f> normals;
+	if (x - 1 > 0){
+		v2 = v1 - positionOf(indexOf(x - 1, y));
+	}
+	if (y + 1 < num_rows){
+		v3 = v1 - positionOf(indexOf(x, y + 1));
+		if (v2 != Vector3f(0, 0, 0)){
+			normals.push_back(Vector3f::cross(v2, v3));
+		}	
+	}
+	if (x + 1 < num_cols){
+		v4 = v1 - positionOf(indexOf(x + 1, y));
+		if (v3 != Vector3f(0, 0, 0)){
+			normals.push_back(Vector3f::cross(v3, v4));
+		}
+	}
+	if (y - 1 > 0){
+		v5 = v1 - positionOf(indexOf(x, y - 1));
+		if (v4 != Vector3f(0, 0, 0)){
+			normals.push_back(Vector3f::cross(v4, v5));
+		}
+		if (v2 != Vector3f(0, 0, 0)){
+			normals.push_back(Vector3f::cross(v5, v2));
+		}
+	}
+	for (unsigned i = 0; i < normals.size(); i++){
+		normal += normals[i];
+	}
+	return -1.0*normal / normals.size();
+}
+
 //draw the system
 void ClothSystem::draw(){
 
@@ -106,54 +145,42 @@ void ClothSystem::draw(){
 			Vector3f v1 = positionOf(num_cols*j + i); 
 			Vector3f v2 = positionOf(num_cols*j + i + 1); 
 			Vector3f v3 = positionOf(num_cols*(j + 1) + i); 
-			Vector3f normal = Vector3f::cross(v3 - v2, v3 - v1);
-			glNormal3fv(normal.normalized());
+			glNormal3fv(getNormal(i, j + 1));
 			glVertex3fv(v3);
-			normal = Vector3f::cross(v2 - v1, v2 - v3);
-			glNormal3fv(normal);
+			glNormal3fv(getNormal(i + 1, j));	
 			glVertex3fv(v2);
-			normal = Vector3f::cross(v1 - v3, v1 - v2);
-			glNormal3fv(normal);
+			glNormal3fv(getNormal(i, j));
 			glVertex3fv(v1);
 
 			v1 = positionOf(num_cols*(j + 1) + i + 1); 
 			v2 = positionOf(num_cols*j + i + 1); 
 			v3 = positionOf(num_cols*(j + 1) + i); 
-			normal = Vector3f::cross(v1 - v2, v1 - v3);
-			glNormal3fv(normal.normalized());
+			glNormal3fv(getNormal(i + 1, j + 1));
 			glVertex3fv(v1);
-			normal = Vector3f::cross(v2 - v3, v2 - v1);
-			glNormal3fv(normal.normalized());
+			glNormal3fv(getNormal(i + 1, j));
 			glVertex3fv(v2);
-			normal = Vector3f::cross(v3 - v1, v3 - v2);
-			glNormal3fv(normal.normalized());
+			glNormal3fv(getNormal(i, j + 1));
 			glVertex3fv(v3);
 
 			//back triangles	
 			v1 = positionOf(num_cols*j + i); 
 			v2 = positionOf(num_cols*j + i + 1); 
 			v3 = positionOf(num_cols*(j + 1) + i); 
-			normal = Vector3f::cross(v2 - v1, v2 - v3);
-			glNormal3fv(normal.normalized());
+			glNormal3fv(getNormal(i + 1, j));
 			glVertex3fv(v2);
-			normal = Vector3f::cross(v3 - v2, v3 - v1);
-			glNormal3fv(normal);
+			glNormal3fv(getNormal(i, j + 1));
 			glVertex3fv(v3);
-			normal = Vector3f::cross(v1 - v3, v1 - v2);
-			glNormal3fv(normal);
+			glNormal3fv(getNormal(i, j));
 			glVertex3fv(v1);
 
 			v1 = positionOf(num_cols*(j + 1) + i + 1); 
 			v2 = positionOf(num_cols*j + i + 1); 
 			v3 = positionOf(num_cols*(j + 1) + i); 
-			normal = Vector3f::cross(v1 - v2, v1 - v3);
-			glNormal3fv(normal.normalized());
+			glNormal3fv(getNormal(i + 1, j + 1));
 			glVertex3fv(v1);
-			normal = Vector3f::cross(v3 - v1, v3 - v2);
-			glNormal3fv(normal.normalized());
+			glNormal3fv(getNormal(i + 1, j));
 			glVertex3fv(v3);
-			normal = Vector3f::cross(v2 - v3, v2 - v1);
-			glNormal3fv(normal.normalized());
+			glNormal3fv(getNormal(i, j + 1));
 			glVertex3fv(v2);
 		}
 	}
