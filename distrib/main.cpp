@@ -32,6 +32,8 @@ namespace
 	TimeStepper * timeStepper;
 	double h;
 	bool swingon = false;
+	bool positive = true;
+	int timercounter = 0;
 
   // initialize your particle systems
   void initSystem(int argc, char * argv[])
@@ -76,6 +78,8 @@ namespace
 	if(timeStepper!=0){
 		timeStepper->takeStep(system,h);
     }
+
+	
   }
 
   // Draw the current particle positions
@@ -173,6 +177,7 @@ namespace
 				ClothSystem* clothsystemcast = static_cast<ClothSystem*>(clothsystem);
 				for (unsigned i = 0; i < (clothsystemcast->fixedpoints).size(); i++){
 					clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, 1)));
+					positive = true;
 				}
 			} else {
 				swingstatus = "off";
@@ -333,7 +338,22 @@ namespace
     void timerFunc(int t)
     {
         stepSystem();
-
+		timercounter++;
+	
+		if (swingon && timercounter % 500 == 0){
+			ClothSystem* clothsystemcast = static_cast<ClothSystem*>(clothsystem);
+			clothsystemcast->clearExternalForces();
+			for (unsigned i = 0; i < (clothsystemcast->fixedpoints).size(); i++){
+				if (positive){
+					clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, -1)));
+				} else {
+					clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, 1)));
+				}
+			}
+			positive = !positive;
+			timercounter = 0;
+		}	
+	
         glutPostRedisplay();
 
         glutTimerFunc(t, &timerFunc, t);

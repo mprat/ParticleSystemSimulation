@@ -109,7 +109,7 @@ vector<Vector3f> ClothSystem::evalF(vector<Vector3f> state)
 	for (unsigned i = 0; i < externalForces.size(); i++)
 	{
 		f[2*externalForces[i].particle_index + 1] += externalForces[i].e_force;
-		//TODO: velocity in all other components not in the direction of the force are zero
+		//velocity in all other components not in the direction of the force are zero
 		if (externalForces[i].e_force.x() == 0){
 			f[2*externalForces[i].particle_index + 1] = f[2*externalForces[i].particle_index + 1] * Vector3f(0, 1, 1);
 		}
