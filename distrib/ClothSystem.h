@@ -19,11 +19,11 @@ public:
 	void addExternalForce(ExternalForce e);
 	void clearExternalForces();
 	void reset(int num_x, int num_y);
+	void drawSprings();
 private:
 	int indexOf(int i, int j);
 	int num_cols;
 	int num_rows;
-	void drawSprings();
 	vector<ExternalForce> externalForces;
 	Vector3f getNormal(int x, int y);
 };

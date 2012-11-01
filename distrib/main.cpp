@@ -34,6 +34,7 @@ namespace
 	bool swingon = false;
 	bool positive = true;
 	int timercounter = 0;
+	bool wire = false;
 
   // initialize your particle systems
   void initSystem(int argc, char * argv[])
@@ -89,9 +90,14 @@ namespace
     GLfloat floorColor[] = {1.0f, 0.0f, 0.0f, 1.0f};
     
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, particleColor);
-    
-    system->draw();
-    
+
+	if (system_index == 3 && wire == true){
+		ClothSystem* clothsystemcast = static_cast<ClothSystem*>(clothsystem);
+		clothsystemcast->drawSprings();
+	} else {
+		system->draw();
+	}
+ 
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, floorColor);
     glPushMatrix();
     glTranslatef(0.0f,-5.0f,0.0f);
@@ -209,6 +215,16 @@ namespace
 					break;
 			}	
 			cout<<"Reset "<<s<<" system"<<endl;
+			break;
+		}
+		case 'w':
+		case 'W':
+		{
+			if (system_index == 3){
+				wire = !wire;
+			} else {
+				cout<<"Unhandled key press "<<key<<"."<<endl;
+			}
 			break;
 		}
         default:
