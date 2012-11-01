@@ -190,6 +190,22 @@ namespace
 					static_cast<ClothSystem*>(clothsystem)->clearExternalForces();
 				}
 				cout<<"Swing "<<swingstatus<<endl;
+			} else if (system_index == 4){
+				swingon = !swingon;
+				string swingstatus;
+				if (swingon){
+					swingstatus = "on";
+					CubeSystem* cubesystemcast = static_cast<CubeSystem*>(cubesystem);
+					for (unsigned i = 0; i < (cubesystemcast->fixedpoints).size(); i++){
+						cubesystemcast->addExternalForce(ExternalForce((cubesystemcast->fixedpoints)[i], Vector3f(0,0, .2)));
+						positive = true;
+					}
+				} else {
+					swingstatus = "off";
+					static_cast<ClothSystem*>(clothsystem)->clearExternalForces();
+				}
+				cout<<"Swing "<<swingstatus<<endl;
+
 			} else {
 				cout<<"Unhandled key press "<<key<<"."<<endl;
 			}
@@ -218,7 +234,7 @@ namespace
 					s = "cloth";
 					break;
 				case 4:
-					static_cast<CubeSystem*>(cubesystem)->reset(4, 4, 4);
+					static_cast<CubeSystem*>(cubesystem)->reset(5, 5, 5);
 					s = "cube";
 					break;
 
@@ -391,13 +407,25 @@ namespace
 		timercounter++;
 	
 		if (swingon && timercounter % 500 == 0){
-			ClothSystem* clothsystemcast = static_cast<ClothSystem*>(clothsystem);
-			clothsystemcast->clearExternalForces();
-			for (unsigned i = 0; i < (clothsystemcast->fixedpoints).size(); i++){
-				if (positive){
-					clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, -1)));
-				} else {
-					clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, 1)));
+			if (system_index == 3){
+				ClothSystem* clothsystemcast = static_cast<ClothSystem*>(clothsystem);
+				clothsystemcast->clearExternalForces();
+				for (unsigned i = 0; i < (clothsystemcast->fixedpoints).size(); i++){
+					if (positive){
+						clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, -1)));
+					} else {
+						clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, 1)));
+					}
+				}
+			} else if (system_index == 4){
+				CubeSystem* cubesystemcast = static_cast<CubeSystem*>(cubesystem);
+				cubesystemcast->clearExternalForces();
+				for (unsigned i = 0; i < (cubesystemcast->fixedpoints).size(); i++){
+					if (positive){
+						cubesystemcast->addExternalForce(ExternalForce((cubesystemcast->fixedpoints)[i], Vector3f(0,0, -0.2)));
+					} else {
+						cubesystemcast->addExternalForce(ExternalForce((cubesystemcast->fixedpoints)[i], Vector3f(0,0, 0.2)));
+					}
 				}
 			}
 			positive = !positive;
