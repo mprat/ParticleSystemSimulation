@@ -78,8 +78,6 @@ namespace
 	if(timeStepper!=0){
 		timeStepper->takeStep(system,h);
     }
-
-	
   }
 
   // Draw the current particle positions
@@ -166,21 +164,51 @@ namespace
 		case 's':
 		case 'S':
 		{
-			//TODO: make it only swing for the cloth
-			swingon = !swingon;
-			string swingstatus;
-			if (swingon){
-				swingstatus = "on";
-				ClothSystem* clothsystemcast = static_cast<ClothSystem*>(clothsystem);
-				for (unsigned i = 0; i < (clothsystemcast->fixedpoints).size(); i++){
-					clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, 1)));
-					positive = true;
+			//only swing the cloth
+			if (system_index == 3){
+				swingon = !swingon;
+				string swingstatus;
+				if (swingon){
+					swingstatus = "on";
+					ClothSystem* clothsystemcast = static_cast<ClothSystem*>(clothsystem);
+					for (unsigned i = 0; i < (clothsystemcast->fixedpoints).size(); i++){
+						clothsystemcast->addExternalForce(ExternalForce((clothsystemcast->fixedpoints)[i], Vector3f(0,0, 1)));
+						positive = true;
+					}
+				} else {
+					swingstatus = "off";
+					static_cast<ClothSystem*>(clothsystem)->clearExternalForces();
 				}
+				cout<<"Swing "<<swingstatus<<endl;
 			} else {
-				swingstatus = "off";
-				static_cast<ClothSystem*>(clothsystem)->clearExternalForces();
+				cout<<"Unhandled key press "<<key<<"."<<endl;
 			}
-			cout<<"Swing "<<swingstatus<<endl;
+			break;
+		}
+		case 'r':
+		case 'R':
+		{
+			//reset
+			string s;
+			switch(system_index){
+				case 0:
+					static_cast<SimpleSystem*>(simplesystem)->reset();
+					s = "simple";
+					break;
+				case 1:
+					static_cast<PendulumSystem*>(pendulumsystem)->reset(2);
+					s = "pendulum";
+					break;
+				case 2:
+					static_cast<PendulumSystem*>(particlechain)->reset(4);
+					s = "particle";
+					break;
+				case 3:
+					static_cast<ClothSystem*>(clothsystem)->reset(8, 8);
+					s = "cloth";
+					break;
+			}	
+			cout<<"Reset "<<s<<" system"<<endl;
 			break;
 		}
         default:

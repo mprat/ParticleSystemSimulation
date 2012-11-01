@@ -7,9 +7,18 @@ PendulumSystem::PendulumSystem():ParticleSystem(1){};
 
 PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 {
+	reset(numParticles);
+	//cout<<"fplen = "<<fixedpoints.size()<<endl;
+}
+
+void PendulumSystem::reset(int numParticles){
 	m_numParticles = numParticles;
 	double k = 5.0;
 	double r = 0.5;
+
+	m_vVecState.clear();
+	mass.clear();
+	springs.clear();
 
 	// fill in code for initializing the state based on the number of particles
 	for (int i = 0; i < m_numParticles; i++) {
@@ -26,10 +35,11 @@ PendulumSystem::PendulumSystem(int numParticles):ParticleSystem(numParticles)
 			springs.push_back(s);
 		}
 	}
+	fixedpoints.clear();
 	fixedpoints.push_back(0);
 	
 	d.setK(0.8);
-	//cout<<"fplen = "<<fixedpoints.size()<<endl;
+
 }
 
 // for a given state, evaluate f(X,t)

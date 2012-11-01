@@ -21,6 +21,7 @@ public:
 	void draw();
 	//void drawSprings();
 
+	void reset(int numParticles);
 	vector<double> mass;
 	vector<Spring> springs;
 	vector<int> fixedpoints;	

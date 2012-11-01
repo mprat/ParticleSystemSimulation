@@ -15,7 +15,7 @@ public:
 	SimpleSystem();
 	
 	vector<Vector3f> evalF(vector<Vector3f> state);
-	
+	void reset();	
 	void draw();
 	
 };

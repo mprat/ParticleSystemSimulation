@@ -3,6 +3,11 @@
 
 ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 {
+	reset(num_x, num_y);
+}
+
+void ClothSystem::reset(int num_x, int num_y)
+{
 	num_cols = num_x;
 	num_rows = num_y;
 	m_numParticles = num_rows * num_cols;
@@ -12,6 +17,11 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 	double k = 150.0;
 	double r = scalefactor*1.0;
 	double m = 1.5;
+	
+	mass.clear();
+	springs.clear();
+	fixedpoints.clear();
+	m_vVecState.clear();
 	
 	for (int i = 0; i < num_rows; i++){
 		for (int j = 0; j < num_cols; j++){
@@ -73,9 +83,7 @@ ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 	fixedpoints.push_back(indexOf(0, num_cols - 1));
 
 	d.setK(0.8);	
-	
-	cout<<"numparticles = "<<m_numParticles<<endl;
-	cout<<"numsprings = "<<springs.size()<<endl;
+
 }
 
 //draw the system

@@ -5,6 +5,10 @@ using namespace std;
 
 SimpleSystem::SimpleSystem()
 {
+	reset();
+}
+
+void SimpleSystem::reset(){
 	m_numParticles = 1;
 	m_vVecState.clear();
 	m_vVecState.push_back(Vector3f(1, 0, 0));		
