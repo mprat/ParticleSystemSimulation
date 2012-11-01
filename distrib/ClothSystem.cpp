@@ -89,7 +89,6 @@ void ClothSystem::reset(int num_x, int num_y)
 //draw the system
 void ClothSystem::draw(){
 
-	//drawSprings();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
@@ -103,7 +102,7 @@ void ClothSystem::draw(){
 
 	for (int j = 0; j < num_rows - 1; j++){
 		for (int i = 0; i < num_cols - 1; i++){
-			//cout<<i<<"  "<<i + 1<<"  "<<num_cols + i<<endl;
+			//front triangles
 			Vector3f v1 = positionOf(num_cols*j + i); 
 			Vector3f v2 = positionOf(num_cols*j + i + 1); 
 			Vector3f v3 = positionOf(num_cols*(j + 1) + i); 
@@ -122,6 +121,7 @@ void ClothSystem::draw(){
 			glVertex3fv(v5);
 			glVertex3fv(v6);
 	
+			//back triangles
 			Vector3f v7 = positionOf(num_cols*j + i); 
 			Vector3f v8 = positionOf(num_cols*j + i + 1); 
 			Vector3f v9 = positionOf(num_cols*(j + 1) + i); 
@@ -137,7 +137,6 @@ void ClothSystem::draw(){
 			glVertex3fv(v10);
 			glVertex3fv(v12);
 			glVertex3fv(v11);
-
 		}
 	}
 	glEnd();
