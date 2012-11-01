@@ -13,6 +13,7 @@ class ClothSystem: public PendulumSystem
 {
 ///ADD MORE FUNCTION AND FIELDS HERE
 public:
+	ClothSystem();
 	ClothSystem(int num_x, int num_y);
 	vector<Vector3f> evalF(vector<Vector3f> state);
 	void draw();

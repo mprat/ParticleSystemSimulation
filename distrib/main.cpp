@@ -15,6 +15,7 @@
 #include "simpleSystem.h"
 #include "pendulumSystem.h"
 #include "ClothSystem.h"
+#include "CubeSystem.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ namespace
 	ParticleSystem *pendulumsystem;
 	ParticleSystem *particlechain;
 	ParticleSystem *clothsystem;
+	ParticleSystem *cubesystem;
 	vector<ParticleSystem*> system_toggle;
     int system_index = 0;
 	TimeStepper * timeStepper;
@@ -63,10 +65,12 @@ namespace
 		pendulumsystem = new PendulumSystem(2);
 		particlechain = new PendulumSystem(4);
 		clothsystem = new ClothSystem(8, 8);
+		cubesystem = new CubeSystem(5, 5, 5);
 		system_toggle.push_back(simplesystem);
 		system_toggle.push_back(pendulumsystem);
 		system_toggle.push_back(particlechain);
 		system_toggle.push_back(clothsystem);
+		system_toggle.push_back(cubesystem);
 		system = simplesystem; 	
 
 		h = atof(argv[2]);
@@ -213,6 +217,11 @@ namespace
 					static_cast<ClothSystem*>(clothsystem)->reset(8, 8);
 					s = "cloth";
 					break;
+				case 4:
+					static_cast<CubeSystem*>(cubesystem)->reset(4, 4, 4);
+					s = "cube";
+					break;
+
 			}	
 			cout<<"Reset "<<s<<" system"<<endl;
 			break;

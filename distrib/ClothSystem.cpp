@@ -1,6 +1,8 @@
 #include "ClothSystem.h"
 #include <iostream>
 
+ClothSystem::ClothSystem():PendulumSystem(){};
+
 ClothSystem::ClothSystem(int num_x, int num_y):PendulumSystem()
 {
 	reset(num_x, num_y);
