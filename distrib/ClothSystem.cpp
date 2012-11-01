@@ -106,37 +106,55 @@ void ClothSystem::draw(){
 			Vector3f v1 = positionOf(num_cols*j + i); 
 			Vector3f v2 = positionOf(num_cols*j + i + 1); 
 			Vector3f v3 = positionOf(num_cols*(j + 1) + i); 
-			Vector3f normal1 = Vector3f::cross(v1 - v2, v1 - v3);
-			glNormal3fv(-1.0*normal1.normalized());
+			Vector3f normal = Vector3f::cross(v3 - v2, v3 - v1);
+			glNormal3fv(normal.normalized());
 			glVertex3fv(v3);
+			normal = Vector3f::cross(v2 - v1, v2 - v3);
+			glNormal3fv(normal);
 			glVertex3fv(v2);
+			normal = Vector3f::cross(v1 - v3, v1 - v2);
+			glNormal3fv(normal);
 			glVertex3fv(v1);
 
-			Vector3f v4 = positionOf(num_cols*(j + 1) + i + 1); 
-			Vector3f v5 = positionOf(num_cols*j + i + 1); 
-			Vector3f v6 = positionOf(num_cols*(j + 1) + i); 
-			Vector3f normal2 = Vector3f::cross(v4 - v5, v4 - v6);
-			glNormal3fv(normal2.normalized());
-			glVertex3fv(v4);
-			glVertex3fv(v5);
-			glVertex3fv(v6);
-	
-			//back triangles
-			Vector3f v7 = positionOf(num_cols*j + i); 
-			Vector3f v8 = positionOf(num_cols*j + i + 1); 
-			Vector3f v9 = positionOf(num_cols*(j + 1) + i); 
-			glNormal3fv(-1.0*normal1);
-			glVertex3fv(v8);
-			glVertex3fv(v9);
-			glVertex3fv(v7);
+			v1 = positionOf(num_cols*(j + 1) + i + 1); 
+			v2 = positionOf(num_cols*j + i + 1); 
+			v3 = positionOf(num_cols*(j + 1) + i); 
+			normal = Vector3f::cross(v1 - v2, v1 - v3);
+			glNormal3fv(normal.normalized());
+			glVertex3fv(v1);
+			normal = Vector3f::cross(v2 - v3, v2 - v1);
+			glNormal3fv(normal.normalized());
+			glVertex3fv(v2);
+			normal = Vector3f::cross(v3 - v1, v3 - v2);
+			glNormal3fv(normal.normalized());
+			glVertex3fv(v3);
 
-			Vector3f v10 = positionOf(num_cols*(j + 1) + i + 1); 
-			Vector3f v11 = positionOf(num_cols*j + i + 1); 
-			Vector3f v12 = positionOf(num_cols*(j + 1) + i); 
-			glNormal3fv(normal2);
-			glVertex3fv(v10);
-			glVertex3fv(v12);
-			glVertex3fv(v11);
+			//back triangles	
+			v1 = positionOf(num_cols*j + i); 
+			v2 = positionOf(num_cols*j + i + 1); 
+			v3 = positionOf(num_cols*(j + 1) + i); 
+			normal = Vector3f::cross(v2 - v1, v2 - v3);
+			glNormal3fv(normal.normalized());
+			glVertex3fv(v2);
+			normal = Vector3f::cross(v3 - v2, v3 - v1);
+			glNormal3fv(normal);
+			glVertex3fv(v3);
+			normal = Vector3f::cross(v1 - v3, v1 - v2);
+			glNormal3fv(normal);
+			glVertex3fv(v1);
+
+			v1 = positionOf(num_cols*(j + 1) + i + 1); 
+			v2 = positionOf(num_cols*j + i + 1); 
+			v3 = positionOf(num_cols*(j + 1) + i); 
+			normal = Vector3f::cross(v1 - v2, v1 - v3);
+			glNormal3fv(normal.normalized());
+			glVertex3fv(v1);
+			normal = Vector3f::cross(v3 - v1, v3 - v2);
+			glNormal3fv(normal.normalized());
+			glVertex3fv(v3);
+			normal = Vector3f::cross(v2 - v3, v2 - v1);
+			glNormal3fv(normal.normalized());
+			glVertex3fv(v2);
 		}
 	}
 	glEnd();
