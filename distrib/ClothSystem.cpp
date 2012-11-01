@@ -89,8 +89,59 @@ void ClothSystem::reset(int num_x, int num_y)
 //draw the system
 void ClothSystem::draw(){
 
-	drawSprings();
+	//drawSprings();
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_NORMALIZE);
+	glShadeModel(GL_SMOOTH);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glBegin(GL_TRIANGLES);
 
+	for (int j = 0; j < num_rows - 1; j++){
+		for (int i = 0; i < num_cols - 1; i++){
+			//cout<<i<<"  "<<i + 1<<"  "<<num_cols + i<<endl;
+			Vector3f v1 = positionOf(num_cols*j + i); 
+			Vector3f v2 = positionOf(num_cols*j + i + 1); 
+			Vector3f v3 = positionOf(num_cols*(j + 1) + i); 
+			Vector3f normal1 = Vector3f::cross(v1 - v2, v1 - v3);
+			glNormal3fv(-1.0*normal1.normalized());
+			glVertex3fv(v3);
+			glVertex3fv(v2);
+			glVertex3fv(v1);
+
+			Vector3f v4 = positionOf(num_cols*(j + 1) + i + 1); 
+			Vector3f v5 = positionOf(num_cols*j + i + 1); 
+			Vector3f v6 = positionOf(num_cols*(j + 1) + i); 
+			Vector3f normal2 = Vector3f::cross(v4 - v5, v4 - v6);
+			glNormal3fv(normal2.normalized());
+			glVertex3fv(v4);
+			glVertex3fv(v5);
+			glVertex3fv(v6);
+	
+			Vector3f v7 = positionOf(num_cols*j + i); 
+			Vector3f v8 = positionOf(num_cols*j + i + 1); 
+			Vector3f v9 = positionOf(num_cols*(j + 1) + i); 
+			glNormal3fv(-1.0*normal1);
+			glVertex3fv(v8);
+			glVertex3fv(v9);
+			glVertex3fv(v7);
+
+			Vector3f v10 = positionOf(num_cols*(j + 1) + i + 1); 
+			Vector3f v11 = positionOf(num_cols*j + i + 1); 
+			Vector3f v12 = positionOf(num_cols*(j + 1) + i); 
+			glNormal3fv(normal2);
+			glVertex3fv(v10);
+			glVertex3fv(v12);
+			glVertex3fv(v11);
+
+		}
+	}
+	glEnd();
+	glPopAttrib();
 }
 
 //draw springs
